@@ -10,9 +10,9 @@ services:
       OTEL_LOGS_EXPORTER: "logging"
       OTEL_METRIC_EXPORT_INTERVAL: 15000
       DB_HOST: postgres
-      DB_USER: myuser
-      DB_PASSWORD: mypassword
-      DB_NAME: mydb
+      DB_USER: admin
+      DB_PASSWORD: admin
+      DB_NAME: orders
       DB_PORT: 5432
     ports:
       - "8080:8080"
