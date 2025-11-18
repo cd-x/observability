@@ -3,6 +3,7 @@ package com.example.tracetest.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -11,10 +12,12 @@ import java.util.Date;
 @AllArgsConstructor
 @Entity
 @Table(name = "orders")
+@NoArgsConstructor
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+    private String id;
     private Date boughtAt;
     private String name;
+    private double amount;
+    private int quantity;
 }
