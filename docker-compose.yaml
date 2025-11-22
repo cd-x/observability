@@ -27,7 +27,7 @@ services:
       - jaeger-all-in-one
       - zipkin
     volumes:
-      - ./otel-config.yaml:/etc/otelcol/config.yaml
+      - ./telemetry/otel-config.yaml:/etc/otelcol/config.yaml
     command: [ "--config=/etc/otelcol/config.yaml" ]
     ports:
       - "4317:4317"
