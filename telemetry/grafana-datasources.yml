@@ -8,7 +8,7 @@ datasources:
     basicAuth: false
     isDefault: true
     version: 1
-    editable: false
+    editable: true
     jsonData:
       timeInterval: "5s"
 
@@ -32,3 +32,22 @@ datasources:
     isDefault: true
     version: 1
     editable: false
+
+  - name: Tempo (yes streaming)
+    type: tempo
+    access: proxy
+    orgId: 1
+    url: http://tempo:3200
+    basicAuth: false
+    isDefault: true
+    version: 1
+    editable: false
+    apiVersion: 1
+    uid: tempo-streaming-enabled
+    jsonData:
+      httpMethod: GET
+      serviceMap:
+        datasourceUid: prometheus
+      streamingEnabled:
+        search: true
+        metrics: true

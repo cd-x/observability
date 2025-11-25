@@ -28,6 +28,7 @@ services:
       - jaeger-all-in-one
       - zipkin
       - loki
+      - tempo
     volumes:
       - ./telemetry/otel-config.yaml:/etc/otelcol/config.yaml
     command: [ "--config=/etc/otelcol/config.yaml" ]
@@ -47,6 +48,9 @@ services:
       - otel-collector
     volumes:
       - ./telemetry/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --enable-feature=exemplar-storage
     ports:
       - "9090:9090"
 
@@ -70,6 +74,17 @@ services:
     restart: unless-stopped
     ports:
       - "3100:3100"
+
+  tempo:
+    image: grafana/tempo:latest
+    container_name: tempo
+    command: [ "-config.file=/etc/tempo.yaml" ]
+    volumes:
+      - ./telemetry/tempo.yaml:/etc/tempo.yaml
+      - ./tempo-data:/var/tempo
+    ports:
+      - "3200"
+      - "4317"
 
   jaeger-all-in-one:
     image: jaegertracing/all-in-one:latest
