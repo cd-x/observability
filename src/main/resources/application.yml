@@ -17,3 +17,8 @@ spring:
   sql:
     init:
       mode: always
+
+external:
+  services:
+    invoice:
+      base-url: https://invoice-service:8085

@@ -1,0 +1,193 @@
+swagger: '2.0'
+info:
+  title: invoice service
+  description: |-
+    ## TMF API Reference : TMF 672 - User Roles And Permissions
+
+    This API is used to manage the user account with which the customer or staff can log-in and log-off the system and the permission for the user to enter or operate the special information.
+  version: 4.0.0
+host: serverRootserverRoot
+basePath: /invoices
+schemes:
+  - https
+consumes:
+  - application/json;charset=utf-8
+produces:
+  - application/json;charset=utf-8
+
+paths:
+  /:
+    get:
+      operationId: listInvoices
+      summary: List or find invoice objects
+      description: This operation list or find invoice entities
+      tags:
+        - invoice
+      parameters:
+        - name: fields
+          description: Comma-separated properties to be provided in response
+          required: false
+          in: query
+          type: string
+        - name: offset
+          description: Requested index for start of resources to be provided in response
+          required: false
+          in: query
+          type: integer
+        - name: limit
+          description: Requested number of resources to be provided in response
+          required: false
+          in: query
+          type: integer
+      responses:
+        '200':
+          description: Success
+          headers:
+            X-Result-Count:
+              description: Actual number of items returned in the response body
+              type: integer
+            X-Total-Count:
+              description: Total number of items matching criteria
+              type: integer
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Invoice'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/Error'
+        '405':
+          description: Method Not allowed
+          schema:
+            $ref: '#/definitions/Error'
+        '409':
+          description: Conflict
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+      x-microservice: myapp-service-app-id
+      x-myorg:
+        route-service: myapp-service
+        public-roles:
+          - ADMIN
+          - USER
+        private-roles:
+          - P_ADMIN
+          - P_USER
+  /{id}:
+    get:
+      operationId: getInvoiceById
+      summary: Retrieves a Permission by ID
+      description: This operation retrieves a Permission entity. Attribute selection is enabled for all first level attributes.
+      tags:
+        - invoice
+      parameters:
+        - name: id
+          description: Identifier of the Permission
+          required: true
+          type: string
+          in: path
+        - name: fields
+          description: Comma-separated properties to provide in response
+          required: false
+          type: string
+          in: query
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Invoice'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/Error'
+        '405':
+          description: Method Not allowed
+          schema:
+            $ref: '#/definitions/Error'
+        '409':
+          description: Conflict
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  Invoice:
+    description: invoice schema
+    type: object
+    required:
+      - amount
+    properties:
+      id:
+        type: integer
+        description: invoice id
+      items:
+        type: integer
+        description: number of items purchased
+      totalAmount:
+        type: number
+        description: total amount to be paid.
+
+  Error:
+    description: Used when an API throws an Error, typically with a HTTP error response-code (3xx, 4xx, 5xx)
+    type: object
+    required:
+      - code
+      - reason
+    properties:
+      code:
+        type: string
+        description: Application relevant detail, defined in the API or a common list.
+      reason:
+        type: string
+        description: Explanation of the reason for the error which can be shown to a client user.
+      message:
+        type: string
+        description: More details and corrective actions related to the error which can be shown to a client user.
+      status:
+        type: string
+        description: HTTP Error code extension
+      referenceError:
+        type: string
+        format: uri
+        description: URI of documentation describing the error.
+      '@baseType':
+        type: string
+        description: When sub-classing, this defines the super-class.
+      '@schemaLocation':
+        type: string
+        format: uri
+        description: A URI to a JSON-Schema file that defines additional attributes and relationships
+      '@type':
+        type: string
+        description: When sub-classing, this defines the sub-class entity name.

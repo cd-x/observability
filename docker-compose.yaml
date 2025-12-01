@@ -21,6 +21,11 @@ services:
     ports:
       - "8080:8080"
 
+  invoice:
+    image: rrishi633/invoice-service:latest
+    ports:
+      - "8085:8085"
+
   otel-collector:
     image: otel/opentelemetry-collector-contrib:0.140.0
     container_name: otel-collector
